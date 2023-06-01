@@ -1,5 +1,7 @@
+use uuid::Uuid;
+
 pub struct TokenEntity{
-    id: i32,
+    uuid: Uuid::uuid,
     client_id: String,
     challenge_type: i32,
     sub_account: i32,

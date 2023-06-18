@@ -20,3 +20,8 @@ diesel = { version = "2.1.0", features = ["postgres", "r2d2"] }
 diesel_migrations = "2.1.0"
 r2d2 = "0.8.10"
 tokio = { version = "1.28.1", features = ["full"] }
+
+
+[profile.release]
+lto = true
+codegen-units = 1

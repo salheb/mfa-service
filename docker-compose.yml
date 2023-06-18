@@ -1,0 +1,21 @@
+version: '3.1'
+
+services:
+  db:
+    environment:
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_DB: "${POSTGRES_DB}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+    image: postgres:9.6-alpine
+    ports:
+      - 5432:5432
+  api:
+    restart: on-failure
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      -'./:/usr/src/token-service'
+    links:
+      - db
+    command: 'bash -c "./wait-server-port.sh db:5432 -q -- diesel setup"'

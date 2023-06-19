@@ -25,8 +25,8 @@ async fn main() -> std::io::Result<()> {
     let host = core::util::get_env_value("HOST");
     let port: u16 = core::util::get_env_value_u16("PORT");
 
-    let db_name = core::util::get_env_value("DATABASE_NAME");
-    let db_url = core::util::get_env_value("DATABASE_URL");
+    // let db_name = core::util::get_env_value("DATABASE_NAME");
+    // let db_url = core::util::get_env_value("DATABASE_URL");
 
     //let db = PostgresConnection{database_url: db_url.to_string(), database_name: db_name.to_string()};
     

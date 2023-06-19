@@ -69,7 +69,7 @@ COPY --from=builder /usr/local/cargo/bin/token-service /usr/local/bin/token-serv
 COPY .env ./.env
 
 # Expose listening port for application
-EXPOSE 80
+EXPOSE 8080
 
 # Run the application
 CMD ["token-service"]

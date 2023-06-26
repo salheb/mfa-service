@@ -4,7 +4,7 @@
 # Test: curl http://localhost/
 
 # Use rust-based image for container; rustc version 1.43.1
-FROM rust:1.67
+FROM rust:1.70
 LABEL Author="Julio Nogueira <julio.salheb@gmail.com>"
 
 # Set working directory in container

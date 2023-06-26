@@ -1,2 +1,4 @@
 #!/bin/bash
-docker-compose --env-file docker.env up -d
+# docker-compose build --build-arg "ARCH=aarch64"
+docker-compose build --build-arg "ARCH=x86_64"
+docker-compose --env-file .env.docker up -d

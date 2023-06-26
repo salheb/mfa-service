@@ -24,7 +24,7 @@ WORKDIR /usr/src/token-service
 COPY src src
 COPY Cargo.toml .
 COPY LICENSE .
-COPY docker.env .env
+COPY .env.docker .env
 
 # install some dependencies needed at build time
 RUN apt-get update && apt-get install libpq5 -y 
@@ -66,7 +66,7 @@ COPY --from=builder /lib/${ARCH}-linux-gnu/libkeyutils.so* /lib/${ARCH}-linux-gn
 # Copy app binary from builder image
 COPY --from=builder /usr/local/cargo/bin/token-service /usr/local/bin/token-service
 # COPY --from=builder /usr/src/token-service/.env /usr/local/bin/.env
-COPY .env ./.env
+COPY .env.docker ./.env
 
 # Expose listening port for application
 EXPOSE 8080

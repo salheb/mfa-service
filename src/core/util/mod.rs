@@ -1,4 +1,6 @@
 use std::env;
+extern crate dotenv;
+
 
 fn get_cmd_argument() -> String{
     let args: Vec<String> = env::args().collect();
@@ -8,7 +10,7 @@ fn get_cmd_argument() -> String{
         run_mode = &args[1];
     }
     
-    println!("Running in {:?} mode.", run_mode);
+    println!("Running in {run_mode} mode.");
     
     return run_mode.to_string();
 }

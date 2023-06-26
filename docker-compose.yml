@@ -1,7 +1,8 @@
-version: '3.1'
+version: '3.8'
 
 services:
   db:
+    container_name: postgres_db
     environment:
       POSTGRES_USER: "${POSTGRES_USER}"
       POSTGRES_DB: "${DATABASE_NAME}"
@@ -10,11 +11,17 @@ services:
     ports:
       - 5432:5432
   api:
-    restart: on-failure
-    build: .
+    #restart: on-failure
+    build: 
+      context: .
+      args:
+        # "ARCH: aarch64" # set if different architecture
+        ARCH: "x86_64"
     depends_on:
       - db
+    links:
+      - db
     environment:
-      DATABASE_URL: "postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/${DATABASE_NAME}"
+       - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres_db/${DATABASE_NAME}
     ports:
       - 80:8080

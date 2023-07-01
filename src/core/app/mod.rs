@@ -1,3 +1,5 @@
+pub mod schema;
+
 use crate::{
     adapters::postgres::postgres_connection::PostgresConnection,
     adapters::rest::rest_configuration,

@@ -21,3 +21,4 @@ Cargo.lock
 .env.dev
 .env.docker
 .env.local
+

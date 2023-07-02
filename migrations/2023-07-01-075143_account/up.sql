@@ -2,7 +2,7 @@
 CREATE TABLE account(
     id SERIAL PRIMARY KEY,
     uuid uuid,
-    account VARCHAR,
+    name VARCHAR,
     mail_address VARCHAR,
-    created_at DATETIME NOT NULL
+    created_at TIMESTAMP NOT NULL
 )

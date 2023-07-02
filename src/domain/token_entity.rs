@@ -7,6 +7,8 @@ use uuid::{Uuid};
 #[derive(Queryable, AsChangeset, Identifiable, Serialize, Deserialize, ToSchema)]
 #[diesel(table_name = crate::core::app::schema::token)]
 #[diesel(check_for_backend(diesel::pg::Pg))]
+#[diesel(belongs_to(AccountEntity))]
+#[diesel(belongs_to(SubAccountEntity))]
 pub struct TokenEntity{
     id: i64,
     uuid: Uuid,

@@ -15,3 +15,39 @@ pub struct SubAccountEntity{
     account_id: i32,
     created_at: NaiveDateTime
 }
+
+impl SubAccountEntity {
+    pub fn new(
+        id: i32,
+        uuid: Uuid,
+        name: String,
+        mail_address: String,
+        account_id: i32,
+        created_at: NaiveDateTime) -> SubAccountEntity{
+
+                SubAccountEntity { id, uuid , name , mail_address , account_id , created_at }
+    }
+    
+}
+
+#[cfg(test)]
+mod tests{
+    use uuid::Uuid;
+
+    use super::{SubAccountEntity};
+    use chrono::Utc;
+
+    #[test]
+    fn create_entity_works(){
+        let sub_account: SubAccountEntity = SubAccountEntity  {  
+                id: 30,
+                uuid: Uuid::new_v4(),  
+                name: "Internal Sector".to_string(), 
+                mail_address: "test@mail.org".to_string(), 
+                account_id: 1,
+                created_at: Utc::now().naive_utc()
+            };
+        assert_eq!(sub_account.account_id,1);
+        assert_eq!(sub_account.mail_address as String, "test@mail.org");
+    }
+}

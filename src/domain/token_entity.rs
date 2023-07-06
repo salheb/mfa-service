@@ -38,3 +38,29 @@ impl TokenEntity{
                 }
 
 }
+
+#[cfg(test)]
+mod tests{
+    use uuid::Uuid;
+
+    use super::{TokenEntity, ChallengeType};
+    use chrono::Utc;
+
+    #[test]
+    fn create_entity_works(){
+        let token: TokenEntity = TokenEntity { 
+                id: 1, 
+                uuid: Uuid::new_v4(), 
+                account: 1, 
+                challenge_type: ChallengeType::API as i32, 
+                sub_account: 1, 
+                phone_number: "+5511940041111".to_string(), 
+                mail_address: "test@mail.org".to_string(), 
+                ttl: 60000, 
+                length: 6, 
+                created_at: Utc::now().naive_utc(),
+            };
+        assert_eq!(token.id,1);
+        assert_eq!(token.challenge_type as i32, 3);
+    }
+}

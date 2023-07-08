@@ -3,9 +3,9 @@
 diesel::table! {
     account (id) {
         id -> Int4,
-        uuid -> Nullable<Uuid>,
-        name -> Nullable<Varchar>,
-        mail_address -> Nullable<Varchar>,
+        uuid -> Uuid,
+        name -> Varchar,
+        mail_address -> Varchar,
         created_at -> Timestamp,
     }
 }
@@ -13,10 +13,10 @@ diesel::table! {
 diesel::table! {
     sub_account (id) {
         id -> Int4,
-        uuid -> Nullable<Uuid>,
-        name -> Nullable<Varchar>,
-        mail_address -> Nullable<Varchar>,
-        account_id -> Nullable<Int4>,
+        uuid -> Uuid,
+        name -> Varchar,
+        mail_address -> Varchar,
+        account_id -> Int4,
         created_at -> Timestamp,
     }
 }
@@ -24,14 +24,14 @@ diesel::table! {
 diesel::table! {
     token (id) {
         id -> Int8,
-        uuid -> Nullable<Uuid>,
-        account -> Nullable<Int4>,
-        challenge_type -> Nullable<Int4>,
-        sub_account -> Nullable<Int4>,
-        phone_number -> Nullable<Varchar>,
-        mail_address -> Nullable<Varchar>,
-        ttl -> Nullable<Int4>,
-        length -> Nullable<Int4>,
+        uuid -> Uuid,
+        account -> Int4,
+        challenge_type -> Int4,
+        sub_account -> Int4,
+        phone_number -> Varchar,
+        mail_address -> Varchar,
+        ttl -> Int4,
+        length -> Int4,
         created_at -> Timestamp,
     }
 }

@@ -1,18 +1,18 @@
 use chrono::{NaiveDateTime};
-use diesel::{AsChangeset, Queryable, Identifiable};
+use diesel::{AsChangeset, Queryable, Identifiable, Insertable, Selectable};
 use serde::{Serialize, Deserialize};
 use utoipa::ToSchema;
 use uuid::{Uuid};
 
-#[derive(Queryable, AsChangeset, Identifiable, Serialize, Deserialize, ToSchema)]
+#[derive(Queryable, AsChangeset, Identifiable, Serialize, Deserialize, ToSchema, Default, Insertable, Selectable)]
 #[diesel(table_name = crate::core::app::schema::account)]
 #[diesel(check_for_backend(diesel::pg::Pg))]
 pub struct AccountEntity{
-    id: i32,
-    uuid: Uuid,
-    name: String,
-    mail_address: String,
-    created_at: NaiveDateTime
+    pub id: i32,
+    pub uuid: Uuid,
+    pub name: String,
+    pub mail_address: String,
+    pub created_at: NaiveDateTime
 }
 
 impl AccountEntity {
@@ -33,7 +33,7 @@ mod tests{
     use chrono::Utc;
 
     #[test]
-    fn create_entity_works(){
+    fn should_create_account_entity(){
         let sub_account: AccountEntity = AccountEntity  {  
                 id: 30,
                 uuid: Uuid::new_v4(),  

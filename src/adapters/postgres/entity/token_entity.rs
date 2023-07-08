@@ -47,7 +47,7 @@ mod tests{
     use chrono::Utc;
 
     #[test]
-    fn create_entity_works(){
+    fn should_create_token_entity(){
         let token: TokenEntity = TokenEntity { 
                 id: 1, 
                 uuid: Uuid::new_v4(), 

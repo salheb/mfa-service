@@ -1,6 +1,10 @@
 pub mod health;
+pub mod account;
+pub mod open_api;
 
 use actix_web::web;
+
+use self::open_api::with_swagger;
 
 pub fn rest_configuration(config: &mut web::ServiceConfig){
     // Add specific service routes bellow to map them into your rest API
@@ -9,5 +13,7 @@ pub fn rest_configuration(config: &mut web::ServiceConfig){
     config.service(
         web::scope("/V1")
             .service(health::health)
+            .service(account::create_account)
+            .service(with_swagger())
     );
 }

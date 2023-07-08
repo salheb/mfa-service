@@ -1,17 +1,14 @@
 use diesel::{pg::PgConnection, r2d2::ConnectionManager};
 
-type DatabasePool = r2d2::Pool<ConnectionManager<PgConnection>>;
+use crate::core::util;
 
-pub struct PostgresConnection{
-    pub database_url: String
-}
 
-impl PostgresConnection{
-    pub fn get_pool(&self) -> DatabasePool{
-        let manager = ConnectionManager::<PgConnection>::new(&self.database_url);
-        
-        r2d2::Pool::builder()
-            .build(manager)
-            .expect("Failure building Postgres connection pool.")
-    }
+pub fn get_pool() -> r2d2::Pool<ConnectionManager<PgConnection>>{
+    let database_url = util::get_env_value("DATABASE_URL");
+    let manager = ConnectionManager::<PgConnection>::new(database_url);
+    
+    r2d2::Pool::builder()
+        .test_on_check_out(true)
+        .build(manager)
+        .expect("Failure building Postgres connection pool.")
 }

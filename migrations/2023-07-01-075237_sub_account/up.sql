@@ -1,9 +1,9 @@
 -- Your SQL goes here
 CREATE TABLE sub_account(
     id SERIAL PRIMARY KEY,
-    uuid uuid,
-    name VARCHAR,
-    mail_address VARCHAR,
-    account_id INTEGER,
+    uuid uuid NOT NULL,
+    name VARCHAR NOT NULL,
+    mail_address VARCHAR NOT NULL,
+    account_id INTEGER NOT NULL,
     created_at TIMESTAMP NOT NULL
 )

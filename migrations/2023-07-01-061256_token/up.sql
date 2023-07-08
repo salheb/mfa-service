@@ -1,13 +1,13 @@
 -- Your SQL goes here
 CREATE TABLE token(
     id BIGSERIAL PRIMARY KEY,
-    uuid uuid,
-    account INT,
-    challenge_type INT,
-    sub_account INT,
-    phone_number VARCHAR,
-    mail_address VARCHAR,
-    ttl INT,
-    length INT,
+    uuid uuid NOT NULL,
+    account INT NOT NULL,
+    challenge_type INT NOT NULL,
+    sub_account INT NOT NULL,
+    phone_number VARCHAR NOT NULL,
+    mail_address VARCHAR NOT NULL,
+    ttl INT NOT NULL,
+    length INT NOT NULL,
     created_at TIMESTAMP NOT NULL
 )

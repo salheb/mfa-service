@@ -38,7 +38,7 @@ mod tests{
     use chrono::Utc;
 
     #[test]
-    fn create_entity_works(){
+    fn should_create_sub_account_entity(){
         let sub_account: SubAccountEntity = SubAccountEntity  {  
                 id: 30,
                 uuid: Uuid::new_v4(),  

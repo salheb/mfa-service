@@ -1,3 +1,3 @@
-pub mod token_entity;
-pub mod account_entity;
-pub mod sub_account_entity;
+pub mod token;
+pub mod sub_account;
+pub mod account;

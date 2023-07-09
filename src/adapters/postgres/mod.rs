@@ -13,7 +13,7 @@ pub async fn create_account(account_entity: AccountEntity) -> Result<AccountEnti
     let conn = &mut pool.get().unwrap();
     
     diesel::insert_into(account::table)
-            .values(account_entity)
+            .values(account_entity.clone())
             .get_result::<AccountEntity>(conn)
 
 }

@@ -1,5 +1,7 @@
 use actix_web::{error, post, web, HttpResponse, Error};
+use chrono::Utc;
 use futures::StreamExt;
+use uuid::Uuid;
 use crate::usecases;
 
 use crate::domain::account::Account;
@@ -29,7 +31,12 @@ pub async fn create_account(mut payload: web::Payload) -> Result<HttpResponse, E
     }
 
     // body is loaded, now we can deserialize serde-json
-    let mut account: Account = serde_json::from_slice::<Account>(&body)?;
+    let mut account: Account = match serde_json::from_slice::<Account>(&body) {
+       Ok(content) => content,
+       Err(error) => return Err(error::ErrorBadRequest(error))
+    };
+    *account.created_at() = Utc::now().naive_utc();
+    *account.uuid() = Uuid::new_v4();
     account = usecases::create_account::create_account(account).await;
     Ok(HttpResponse::Ok().json(account)) // <- send response
 }

@@ -17,13 +17,13 @@ pub struct Account{
 }
 
 impl Account{
-    pub fn new(id: Option<i32>,
+    /*pub fn new(id: Option<i32>,
         uuid: Uuid,
         name: String,
         mail_address: String,
         created_at: NaiveDateTime) -> Account{
             Account {id, uuid, name, mail_address, created_at}
-    }
+    }*/
 
     // basic mapping functions
     pub fn from_entity(account_entity: AccountEntity) -> Account{
@@ -36,15 +36,15 @@ impl Account{
             }
     }
 
-    pub fn to_entity(model: Account) -> AccountEntity{
+    pub fn to_entity(model: &mut Account) -> AccountEntity{
         AccountEntity { 
             id: match model.id{
                 Some(id) => id,
                 None => 0
             },  
             uuid: model.uuid, 
-            name: model.name, 
-            mail_address: model.mail_address, 
+            name: model.name.clone(), 
+            mail_address: model.mail_address.clone(), 
             created_at: model.created_at 
             }
     }
@@ -55,9 +55,5 @@ impl Account{
 
     pub fn uuid(&mut self) -> &mut Uuid{
         &mut self.uuid
-    }
-
-    pub fn id(&mut self) -> &mut Option<i32>{
-        &mut self.id
     }
 }

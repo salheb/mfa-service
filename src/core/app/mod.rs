@@ -30,3 +30,17 @@ pub async fn start() -> std::io::Result<()>{
         .run()
         .await
 }
+
+#[cfg(test)]
+mod tests{
+
+    #[test]
+    fn should_exists_env_params() {
+        use crate::core::util;
+
+        dotenv::dotenv().ok();
+        assert!(!util::get_env_value("DATABASE_URL").is_empty());
+        assert!(!util::get_env_value("HOST").is_empty());
+        assert!(!util::get_env_value("PORT").is_empty());
+    }
+}

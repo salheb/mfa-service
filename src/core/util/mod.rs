@@ -1,9 +1,6 @@
 use std::env;
 
-use actix_web::{web::{self, BytesMut}, Error, error};
 extern crate dotenv;
-
-const MAX_SIZE: usize = 262_144; // max payload size is 256k
 
 fn get_cmd_argument() -> String{
     let args: Vec<String> = env::args().collect();

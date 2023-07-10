@@ -1,5 +1,6 @@
 pub mod health;
 pub mod account;
+pub mod sub_account;
 pub mod open_api;
 
 use actix_web::web;
@@ -14,6 +15,7 @@ pub fn rest_configuration(config: &mut web::ServiceConfig){
         web::scope("/V1")
             .service(health::health)
             .service(account::create_account)
+            .service(sub_account::create_sub_account)
             .service(with_swagger())
     );
 }

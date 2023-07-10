@@ -7,7 +7,6 @@ use uuid::{Uuid};
 #[derive(Queryable, AsChangeset, Identifiable, Serialize, Deserialize, ToSchema, Default, Selectable)]
 #[diesel(table_name = crate::core::app::schema::account)]
 #[diesel(check_for_backend(diesel::pg::Pg))]
-#[primary_key(id)]
 pub struct AccountEntity{
     pub id: i32,
     pub uuid: Uuid,

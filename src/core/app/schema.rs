@@ -36,6 +36,7 @@ diesel::table! {
     }
 }
 
+diesel::joinable!(sub_account -> account (account_id));
 diesel::joinable!(token -> account (account));
 diesel::joinable!(token -> sub_account (sub_account));
 

@@ -1,14 +1,15 @@
 use diesel::result::Error;
-use totp_rs::{Rfc6238, TOTP};
+use totp_rs::{Rfc6238, TOTP, Secret};
 use chrono::Utc;
 use uuid::Uuid;
+
 
 use crate::{domain::token::Token, adapters::postgres};
 
 pub async fn generate_otp(otp: &mut Token)  -> Result<Token, Error>{
 
     let mut rfc = Rfc6238::with_defaults(
-        "totp-sercret-123".as_bytes().to_vec()
+        Secret::default().to_bytes().unwrap()
     ).unwrap();
     
     // optional, set digits, issuer, account_name

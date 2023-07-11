@@ -2,7 +2,7 @@ use diesel::{RunQueryDsl, result::Error, QueryDsl, ExpressionMethods};
 
 use crate::core::app::schema::*;
 
-use self::{entity::{account_entity::AccountEntity, sub_account_entity::SubAccountEntity}};
+use self::{entity::{account_entity::AccountEntity, sub_account_entity::SubAccountEntity, token_entity::TokenEntity}};
 
 pub mod postgres_connection;
 pub mod entity;
@@ -47,4 +47,34 @@ pub async fn create_sub_account(sub_account_entity: SubAccountEntity) -> Result<
     diesel::insert_into(sub_account::table)
     .values(sub_account_entity.clone())
     .get_result::<SubAccountEntity>(conn)
+}
+
+
+/*
+SAVE GENERATED OTP PASSWORD
+ */
+pub async fn save_generated_totp(token_entity: TokenEntity) -> Result<TokenEntity, Error>{
+    let pool = postgres_connection::get_pool();
+    let conn = &mut pool.get().unwrap();
+
+    diesel::insert_into(token::table)
+    .values(token_entity.clone())
+    .get_result::<TokenEntity>(conn)
+}
+
+/*
+VALIDATE OTP PASSWORD
+ */
+pub async fn get_totp(token_uuid: uuid::Uuid) -> Result<TokenEntity, Error>{
+    use crate::core::app::schema::token::dsl::*;
+
+    let pool = postgres_connection::get_pool();
+    let conn = &mut pool.get().unwrap();
+
+    let selected_token = 
+                    QueryDsl::filter(token, uuid.eq(token_uuid))
+                        .first::<TokenEntity>(conn);
+
+    return selected_token;
+
 }

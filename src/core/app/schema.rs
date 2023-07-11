@@ -33,6 +33,7 @@ diesel::table! {
         ttl -> Int4,
         length -> Int4,
         created_at -> Timestamp,
+        code -> Varchar,
     }
 }
 

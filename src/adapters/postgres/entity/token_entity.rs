@@ -111,9 +111,9 @@ mod tests{
                 ttl: 60000, 
                 length: 6, 
                 created_at: Utc::now().naive_utc(),
-                code: "123456".to_string()
+                code: "123456".to_string(),
             };
         assert_eq!(token.id,1);
-        assert_eq!(token.challenge_type as i32, 3);
+        assert_eq!(token.challenge_type, 1);
     }
 }

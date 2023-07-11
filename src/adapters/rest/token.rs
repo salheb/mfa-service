@@ -44,7 +44,7 @@ pub async fn otp_generate(mut payload: web::Payload) -> Result<HttpResponse, Err
     match new_otp {
         Ok(mut res) => { 
             match ChallengeType::from_u32(res.challenge_type().clone().unsigned_abs()) {
-                ChallengeType::API => Ok(HttpResponse::Ok().json(res)), // <- send response    
+                ChallengeType::API => Ok(HttpResponse::Ok().json(res.response_fmt())), // <- send response    
                 ChallengeType::SMS => Ok(HttpResponse::Ok().json(res.response_fmt())), // <- send response    
                 ChallengeType::MAIL => Ok(HttpResponse::Ok().json(res.response_fmt())), // <- send response    
                 ChallengeType::WHATSAPP => Ok(HttpResponse::Ok().json(res.response_fmt())), // <- send response    

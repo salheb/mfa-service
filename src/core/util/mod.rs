@@ -12,7 +12,7 @@ fn get_cmd_argument() -> String{
     
     println!("Running in {run_mode} mode.");
     
-    return run_mode.to_string();
+    run_mode.to_string()
 }
 
 pub fn load_env(){
@@ -33,11 +33,16 @@ pub fn load_env(){
 pub fn get_env_value(env_name: &str) -> String{
     let mut exp: String = env_name.to_string();
     exp.push_str(" must be set.");
-    return env::var(env_name).expect(&exp);
+    env::var(env_name).expect(&exp)
 }
 
 pub fn get_env_value_u16(env_name: &str) -> u16{
     let mut exp: String = env_name.to_string();
     exp.push_str(" must be set.");
-    return env::var(env_name).expect(&exp).parse().unwrap();
+    env::var(env_name).expect(&exp).parse().unwrap()
+}
+
+pub fn is_dev_environment() -> bool{
+    let env = get_env_value("ENVIRONMENT");
+    env.eq("dev")
 }

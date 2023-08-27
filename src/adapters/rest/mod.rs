@@ -14,11 +14,12 @@ pub fn rest_configuration(config: &mut web::ServiceConfig){
     // TODO: add necessary API headers and pre-requisites, like CORS allowance params
     // TODO: Add actix-web-middleware-keycloak-auth to enforce OAuth2 within keycloak
     config.service(
-        web::scope("/V1")
+        web::scope("/v1")
             .service(health::health)
             .service(account::create_account)
             .service(sub_account::create_sub_account)
             .service(token::otp_generate)
+            .service(token::otp_validate)
             .service(with_swagger())
     );
 }

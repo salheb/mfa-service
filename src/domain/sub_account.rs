@@ -15,14 +15,17 @@ pub struct SubAccount{
     mail_address: String,
     account_id: i32,
     #[serde(default)]
-    created_at: NaiveDateTime
+    created_at: NaiveDateTime,
+    #[serde(default)]
+    otp_secret: String,
 }
 
 impl SubAccount{
     pub fn from_entity(sub_account_entity: SubAccountEntity) -> SubAccount{
         SubAccount {id: sub_account_entity.id, uuid: sub_account_entity.uuid, 
                     name: sub_account_entity.name, mail_address: sub_account_entity.mail_address,
-                    account_id: sub_account_entity.account_id, created_at: sub_account_entity.created_at}
+                    account_id: sub_account_entity.account_id, created_at: sub_account_entity.created_at,
+                    otp_secret: sub_account_entity.otp_secret}
     }
 
     pub fn to_entity(model: &mut SubAccount) -> SubAccountEntity{
@@ -32,7 +35,8 @@ impl SubAccount{
             name: model.name.clone(),
             mail_address: model.mail_address.clone(),
             account_id: model.account_id,
-            created_at: model.created_at
+            created_at: model.created_at,
+            otp_secret: model.otp_secret.clone()
         }
     }
 
@@ -46,5 +50,9 @@ impl SubAccount{
 
     pub fn account_id(&mut self) -> &mut i32{
         &mut self.account_id
+    }
+
+    pub fn otp_secret(&mut self) -> &mut String{
+        &mut self.otp_secret
     }
 }

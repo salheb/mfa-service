@@ -18,6 +18,7 @@ diesel::table! {
         mail_address -> Varchar,
         account_id -> Int4,
         created_at -> Timestamp,
+        otp_secret -> Varchar,
     }
 }
 
@@ -31,7 +32,7 @@ diesel::table! {
         phone_number -> Varchar,
         mail_address -> Varchar,
         ttl -> Int4,
-        length -> Int4,
+        digits -> Int4,
         created_at -> Timestamp,
         code -> Varchar,
     }

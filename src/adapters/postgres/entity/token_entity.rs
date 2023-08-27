@@ -1,8 +1,8 @@
-use chrono::{NaiveDateTime};
+use chrono::NaiveDateTime;
 use diesel::{AsChangeset, Queryable, Identifiable, Selectable, Insertable};
 use serde::{Serialize, Deserialize};
 use utoipa::ToSchema;
-use uuid::{Uuid};
+use uuid::Uuid;
 
 #[derive(Queryable, AsChangeset, Identifiable, Serialize, Deserialize, ToSchema, Default, Selectable)]
 #[diesel(table_name = crate::core::app::schema::token)]
@@ -18,36 +18,37 @@ pub struct TokenEntity{
     pub phone_number: String,
     pub mail_address: String,
     pub ttl: i32,
-    pub length: i32,
+    pub digits: i32,
     pub created_at: NaiveDateTime,
     pub code: String,
 }
 
 #[derive(ToSchema, Copy, Clone, Serialize, Deserialize)]
 pub enum ChallengeType{
-    API = 1,
-    SMS = 2,
-    MAIL = 3,
-    WHATSAPP = 4
+    Api = 1,
+    Sms = 2,
+    Mail = 3,
+    Whatsapp = 4
 }
 
 impl ChallengeType{
     pub fn from_u32(value: u32) -> ChallengeType{
         match value {
-            1 => ChallengeType::API,
-            2 => ChallengeType::SMS,
-            3 => ChallengeType::MAIL,
-            4 => ChallengeType::WHATSAPP,
+            1 => ChallengeType::Api,
+            2 => ChallengeType::Sms,
+            3 => ChallengeType::Mail,
+            4 => ChallengeType::Whatsapp,
             _ => panic!("Unknown Challenge Type enum conversion {}.", value),
         }
     }
 }
 
 impl TokenEntity{
+    #[allow(clippy::too_many_arguments)]
     pub fn new(id: i64, uuid: Uuid, account: i32, challenge_type: i32, sub_account: i32, 
                 phone_number: String, mail_address: String, ttl: i32, 
-                length: i32, created_at: NaiveDateTime, code: String) -> TokenEntity{
-                    TokenEntity {id, uuid , account, challenge_type, sub_account, phone_number, mail_address, ttl, length, created_at, code}
+                digits: i32, created_at: NaiveDateTime, code: String) -> TokenEntity{
+                    TokenEntity {id, uuid , account, challenge_type, sub_account, phone_number, mail_address, ttl, digits, created_at, code}
                 }
     
     pub fn clone(&self) -> NewTokenEntity{
@@ -58,7 +59,7 @@ impl TokenEntity{
                          phone_number: self.phone_number.clone(), 
                          mail_address: self.mail_address.clone(), 
                          ttl: self.ttl, 
-                         length: self.length, 
+                         digits: self.digits, 
                          created_at: self.created_at,
                          code: self.code.clone()
                     }
@@ -78,16 +79,17 @@ pub struct NewTokenEntity{
     pub phone_number: String,
     pub mail_address: String,
     pub ttl: i32,
-    pub length: i32,
+    pub digits: i32,
     pub created_at: NaiveDateTime,
     pub code: String
 }
 
 impl NewTokenEntity{
+    #[allow(clippy::too_many_arguments)]
     pub fn new(uuid: Uuid, account: i32, challenge_type: i32, sub_account: i32, 
                 phone_number: String, mail_address: String, ttl: i32, 
-                length: i32, created_at: NaiveDateTime, code: String) -> NewTokenEntity{
-                    NewTokenEntity {uuid , account, challenge_type, sub_account, phone_number, mail_address, ttl, length, created_at, code}
+                digits: i32, created_at: NaiveDateTime, code: String) -> NewTokenEntity{
+                    NewTokenEntity {uuid , account, challenge_type, sub_account, phone_number, mail_address, ttl, digits, created_at, code}
                 }
 }
 
@@ -104,12 +106,12 @@ mod tests{
                 id: 1, 
                 uuid: Uuid::new_v4(), 
                 account: 1, 
-                challenge_type: ChallengeType::API as i32, 
+                challenge_type: ChallengeType::Api as i32, 
                 sub_account: 1, 
                 phone_number: "+5511940041111".to_string(), 
                 mail_address: "test@mail.org".to_string(), 
                 ttl: 60000, 
-                length: 6, 
+                digits: 6, 
                 created_at: Utc::now().naive_utc(),
                 code: "123456".to_string(),
             };

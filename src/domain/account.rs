@@ -38,10 +38,7 @@ impl Account{
 
     pub fn to_entity(model: &mut Account) -> AccountEntity{
         AccountEntity { 
-            id: match model.id{
-                Some(id) => id,
-                None => 0
-            },  
+            id: model.id.unwrap_or(0),  
             uuid: model.uuid, 
             name: model.name.clone(), 
             mail_address: model.mail_address.clone(), 

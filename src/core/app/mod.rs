@@ -1,8 +1,9 @@
 pub mod schema;
+pub mod telemetry;
 
 use crate::{
     adapters::postgres::postgres_connection,
-    adapters::rest::{rest_configuration},
+    adapters::rest::rest_configuration,
     };
 use actix_web::{App, HttpServer};
 use super::util;
@@ -10,6 +11,8 @@ use super::util;
 pub async fn start() -> std::io::Result<()>{
     
     util::load_env();
+
+    telemetry::init_tracer();
 
     let host = util::get_env_value("HOST");
     let port: u16 = util::get_env_value_u16("PORT");

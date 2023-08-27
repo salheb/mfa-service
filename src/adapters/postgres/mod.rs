@@ -2,7 +2,7 @@ use diesel::{RunQueryDsl, result::Error, QueryDsl, ExpressionMethods};
 
 use crate::core::app::schema::*;
 
-use self::{entity::{account_entity::AccountEntity, sub_account_entity::SubAccountEntity, token_entity::TokenEntity}};
+use self::entity::{account_entity::AccountEntity, sub_account_entity::SubAccountEntity, token_entity::TokenEntity};
 
 pub mod postgres_connection;
 pub mod entity;
@@ -30,11 +30,8 @@ pub async fn get_account(account_id: i32) -> Result<AccountEntity, Error>{
     let pool = postgres_connection::get_pool();
     let conn = &mut pool.get().unwrap();
 
-    let selected_account = 
-                    QueryDsl::filter(account, id.eq(account_id))
-                        .first::<AccountEntity>(conn);
-
-    return selected_account;
+    QueryDsl::filter(account, id.eq(account_id))
+                        .first::<AccountEntity>(conn)
 }
 
 /*
@@ -47,6 +44,19 @@ pub async fn create_sub_account(sub_account_entity: SubAccountEntity) -> Result<
     diesel::insert_into(sub_account::table)
     .values(sub_account_entity.clone())
     .get_result::<SubAccountEntity>(conn)
+}
+
+/*
+GET ACCOUNT DATABASE METHOD
+ */
+pub async fn get_sub_account(sub_account_id: i32) -> Result<SubAccountEntity, Error>{
+    use crate::core::app::schema::sub_account::dsl::*;
+
+    let pool = postgres_connection::get_pool();
+    let conn = &mut pool.get().unwrap();
+
+    QueryDsl::filter(sub_account, id.eq(sub_account_id))
+        .first::<SubAccountEntity>(conn)
 }
 
 
@@ -71,10 +81,6 @@ pub async fn get_totp(token_uuid: uuid::Uuid) -> Result<TokenEntity, Error>{
     let pool = postgres_connection::get_pool();
     let conn = &mut pool.get().unwrap();
 
-    let selected_token = 
-                    QueryDsl::filter(token, uuid.eq(token_uuid))
-                        .first::<TokenEntity>(conn);
-
-    return selected_token;
-
+    QueryDsl::filter(token, uuid.eq(token_uuid))
+                        .first::<TokenEntity>(conn)
 }

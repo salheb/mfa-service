@@ -3,7 +3,7 @@ use diesel::result::Error;
 use chrono::Utc;
 use uuid::Uuid;
 
-use crate::{domain::sub_account::SubAccount, adapters::{postgres}};
+use crate::{domain::sub_account::SubAccount, adapters::postgres};
 
 use super::get_account;
 
@@ -11,7 +11,7 @@ use super::get_account;
 pub async fn create_sub_account(sub_account: &mut SubAccount) -> Result<SubAccount, Error>{
 
     //first check if associated account exists
-    let account = get_account::get_account(sub_account.account_id().clone()).await;
+    let account = get_account::get_account(*sub_account.account_id()).await;
 
     let _account = match account {
         Ok(acc) => acc,

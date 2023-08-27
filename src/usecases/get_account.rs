@@ -10,5 +10,5 @@ pub async fn get_account(account_id: i32) -> Result<Account, Error>{
         Err(e) => return Err(e),
     };
     
-    return Ok(model);
+    Ok(model)
 }

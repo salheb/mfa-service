@@ -27,7 +27,7 @@ COPY LICENSE .
 COPY .env.docker .env
 
 # install some dependencies needed at build time
-RUN apt-get update && apt-get install libpq5 -y 
+RUN apt-get update && apt-get install libpq5 libsasl2-dev zlib1g -y
 
 # Build release application
 RUN cargo install --path .
@@ -62,6 +62,7 @@ COPY --from=builder /usr/lib/${ARCH}-linux-gnu/libgmp.so* /usr/lib/${ARCH}-linux
 COPY --from=builder /usr/lib/${ARCH}-linux-gnu/libffi.so* /usr/lib/${ARCH}-linux-gnu/
 COPY --from=builder /lib/${ARCH}-linux-gnu/libcom_err.so* /lib/${ARCH}-linux-gnu/
 COPY --from=builder /lib/${ARCH}-linux-gnu/libkeyutils.so* /lib/${ARCH}-linux-gnu/
+COPY --from=builder /lib/${ARCH}-linux-gnu/libz.so.1* /lib/${ARCH}-linux-gnu/
 
 # Copy app binary from builder image
 COPY --from=builder /usr/local/cargo/bin/token-service /usr/local/bin/token-service

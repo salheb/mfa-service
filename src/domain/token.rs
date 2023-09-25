@@ -84,6 +84,14 @@ impl Token{
         &mut self.text_template
     }
 
+    pub fn phone_number(&mut self) -> &mut String{
+        &mut self.phone_number
+    }
+
+    pub fn mail_address(&mut self) -> &mut String{
+        &mut self.mail_address
+    }
+
 }
 
 

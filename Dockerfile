@@ -17,8 +17,8 @@ LABEL Author="Julio Nogueira <julio.salheb@gmail.com>"
 RUN update-ca-certificates
 
 # Set working directory in container
-RUN mkdir /usr/src/token-service
-WORKDIR /usr/src/token-service
+RUN mkdir /usr/src/mfa-service
+WORKDIR /usr/src/mfa-service
 
 # Copy all source code file from local computer to container
 COPY src src
@@ -31,7 +31,7 @@ RUN apt-get update && apt-get install libpq5 libsasl2-dev zlib1g -y
 
 # Build release application
 RUN cargo install --path .
-RUN strip -s /usr/src/token-service/target/release/token-service
+RUN strip -s /usr/src/token-service/target/release/mfa-service
 
 ###################
 ## Runtime image ##
@@ -65,7 +65,7 @@ COPY --from=builder /lib/${ARCH}-linux-gnu/libkeyutils.so* /lib/${ARCH}-linux-gn
 COPY --from=builder /lib/${ARCH}-linux-gnu/libz.so.1* /lib/${ARCH}-linux-gnu/
 
 # Copy app binary from builder image
-COPY --from=builder /usr/local/cargo/bin/token-service /usr/local/bin/token-service
+COPY --from=builder /usr/local/cargo/bin/mfa-service /usr/local/bin/mfa-service
 # COPY --from=builder /usr/src/token-service/.env /usr/local/bin/.env
 COPY .env.docker ./.env
 

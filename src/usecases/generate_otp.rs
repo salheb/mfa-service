@@ -1,19 +1,17 @@
-use diesel::result::Error;
 use log::{info, warn};
-use rdkafka::error::KafkaError;
 use totp_rs::{Rfc6238, TOTP, Secret};
 use chrono::Utc;
 use uuid::Uuid;
 
-use crate::{domain::{token::Token, sub_account::SubAccount, message::Message}, adapters::{postgres::{self, entity::token_entity::ChallengeType}, kafka}, core::util::{is_dev_environment, get_env_value}};
+use crate::{domain::{token::Token, sub_account::SubAccount, message::Message, errors::{TokenNotGeneratedError, SubAccountNotFoundError, TokenNotPersistedError}}, adapters::{postgres::{self, entity::token_entity::ChallengeType}, kafka}, core::util::{is_dev_environment, get_env_value}};
 
-pub async fn generate_otp(otp: &mut Token)  -> Result<Token, Error>{
+pub async fn generate_otp(otp: &mut Token)  -> Result<Token, String>{
 
     let sub_account_entity = postgres::get_sub_account(*otp.sub_account()).await;
     let mut sub_account: SubAccount;
     match sub_account_entity {
         Ok(res) => { sub_account = SubAccount::from_entity(res) },
-        Err(err) => { return Err(err) }
+        Err(_) => { return Err(SubAccountNotFoundError.to_string()) }
     }
     
     let encoded_secret = Secret::Raw(sub_account.otp_secret().as_bytes().to_vec());
@@ -48,27 +46,36 @@ pub async fn generate_otp(otp: &mut Token)  -> Result<Token, Error>{
     match new_entity {
         Ok(ent) => {
             model = Token::from_entity(ent);
-            match ChallengeType::from_u32((*model.challenge_type()).unsigned_abs()) {
-                ChallengeType::Api => {info!("Challenge_type = API");}, 
-                _ => {
-                        info!("Challenge_type <> API");
-                        match send_message(&mut model).await {
-                            () => 
-                                {
-                                    model.empty_code();
-                                }
-                        }
-                        
-                     }
-            };
-        },
-        Err(e) => return Err(e)
-    };    
+        }
+        Err(_) => {
+            warn!("Failed to save token");
+            return Err(TokenNotPersistedError.to_string())
+        }
+    }
 
-    Ok(model)
+    match ChallengeType::from_u32((*model.challenge_type()).unsigned_abs()) {
+        ChallengeType::Api => 
+        {
+            info!("Challenge_type = API");
+            Ok(model)
+        }, 
+        _ => 
+        {
+            info!("Challenge_type <> API");
+            model.empty_code();
+            match send_message(&mut model).await {
+                true =>{
+                    Ok(model)
+                },
+                false =>{
+                    Err(TokenNotGeneratedError.to_string())
+                }
+            }            
+        }
+    }
 }
 
-async fn send_message(token: &mut Token) -> Result<bool, Error>{
+async fn send_message(token: &mut Token) -> bool{
     //TODO: implement messaging (kafka, rabbit) implementation to send messages asyncronously
     info!("Starting generate_otp::send_message fn");
     let message_content = get_text(token.text_template().to_string(), token.code().to_string());
@@ -83,11 +90,12 @@ async fn send_message(token: &mut Token) -> Result<bool, Error>{
         true => 
                 {
                     info!("Message sent: {} | with code {}",message_content, &mut token.code());
-                    Ok(true)
+                    true
                 },
         false => 
                 {
-                    warn!("Message not sent")
+                    warn!("Message not sent");
+                    false
                 },
     }
 }

@@ -6,6 +6,7 @@ use crate::{
     adapters::rest::rest_configuration,
     };
 use actix_web::{App, HttpServer};
+use simple_logger::SimpleLogger;
 use super::util;
 
 pub async fn start() -> std::io::Result<()>{
@@ -13,6 +14,8 @@ pub async fn start() -> std::io::Result<()>{
     util::load_env();
 
     telemetry::init_tracer();
+    
+    SimpleLogger::new().with_colors(true).init().unwrap();
 
     let host = util::get_env_value("HOST");
     let port: u16 = util::get_env_value_u16("PORT");

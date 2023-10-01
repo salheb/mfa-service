@@ -1,8 +1,8 @@
-use chrono::{NaiveDateTime};
+use chrono::NaiveDateTime;
 use diesel::{AsChangeset, Queryable, Identifiable, Insertable, Selectable};
 use serde::{Serialize, Deserialize};
 use utoipa::ToSchema;
-use uuid::{Uuid};
+use uuid::Uuid;
 
 #[derive(Queryable, AsChangeset, Identifiable, Serialize, Deserialize, ToSchema, Default, Selectable)]
 #[diesel(table_name = crate::core::app::schema::account)]
@@ -55,7 +55,7 @@ mod tests{
 
     use crate::adapters::postgres::entity::account_entity::NewAccountEntity;
 
-    use super::{AccountEntity};
+    use super::AccountEntity;
     use chrono::Utc;
 
     #[test]

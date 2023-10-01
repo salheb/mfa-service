@@ -1,5 +1,5 @@
 [package]
-name = "token-service"
+name = "mfa-service"
 version = "0.1.0"
 edition = "2021"
 authors = ["julio-nogueira"]

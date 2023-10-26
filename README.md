@@ -58,3 +58,5 @@ In future releases, Diesel Migrations will run in an embedded way, turning this 
 ## Planned features for next major releasees
 
 1. Embed Diesel migrations if environment is setted up to Development
+2. oauth2 API authentication
+3. SSL implementation

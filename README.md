@@ -1,4 +1,7 @@
 # MFA OTP Service
+
+![build workflow](https://github.com/salheb/mfa-service/actions/workflows/rust.yml/badge.svg)
+
 An OTP service to generate and validate users in any 2FA process intended. Written in Rust for better performance and small size.
 
 ## Local running without Docker Compose

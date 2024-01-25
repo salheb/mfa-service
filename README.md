@@ -2,6 +2,8 @@
 
 ![build workflow](https://github.com/salheb/mfa-service/actions/workflows/rust.yml/badge.svg)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=salheb_mfa-service&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=salheb_mfa-service)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=salheb_mfa-service&metric=coverage)](https://sonarcloud.io/summary/new_code?id=salheb_mfa-service)
 
 An OTP service to generate and validate users in any 2FA process intended. Written in Rust for better performance and small size.
 

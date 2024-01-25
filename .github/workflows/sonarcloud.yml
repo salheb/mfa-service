@@ -43,6 +43,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+
+      - name: Install Rust
+        run: rustup update stable
+
+      - name: Install cargo-llvm-cov
+        uses: taiki-e/install-action@cargo-llvm-cov
+
+      - name: Install Clippy
+        run: rustup component add clippy
+
+      - name: Install cargo-sonar and run Clippy
+        run: |
+            cargo install cargo-sonar
+            cargo clippy --message-format json > my-clippy-report.json
+            cargo sonar --issues clippy --clippy-path my-clippy-report.json
+
+      - name: Generate code coverage
+        run: cargo llvm-cov --all-features --workspace --lcov --output-path lcov.info
       - name: Analyze with SonarCloud
 
         # You can pin the exact commit or the version.
@@ -58,6 +79,8 @@ jobs:
             # mandatory
             -Dsonar.projectKey=salheb_mfa-service
             -Dsonar.organization=salheb
+            -Dsonar.externalIssuesReportPaths=sonar-issues.json
+            -Dcommunity.rust.lcov.reportPaths=lcov.info
             # Comma-separated paths to directories containing main source files.
             #-Dsonar.sources= # optional, default is project base directory
             # When you need the analysis to take place in a directory other than the one from which it was launched
